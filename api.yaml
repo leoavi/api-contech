@@ -9,7 +9,8 @@ info:
   x-logo:
     url: http://www.contech.com.br/images/logo.png
 servers:
-  - url: /v1
+  - url: http://contransoplog.ddns.net:9999/escalasoft
+    description: Servidor de produção Contech
 security:
   - BearerAuth: []
 tags:

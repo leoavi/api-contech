@@ -1,0 +1,6 @@
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
+.pdf-pages/
+node_modules/

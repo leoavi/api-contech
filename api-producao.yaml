@@ -1,0 +1,2068 @@
+openapi: 3.0.0
+info:
+  title: API Contech — Produção (espelho do banco ESCALASOFT)
+  version: 1.0.0-producao-2026-05-20
+  description: |-
+    Catálogo dos endpoints **realmente cadastrados** em `IN_WEBSERVICE` (handle=1, "1 - Web service Escalasoft") no banco ESCALASOFT. Espelho fiel do estado de produção em 20/05/2026.
+
+    Diferente da aba **Exemplo** (que mostra o contrato idealizado pela documentação Contech padrão), esta aba reflete exatamente o que está no banco — incluindo inconsistências de convenção de URL, ausência de schemas de payload e ausência de autenticação no registro.
+
+    ## Autenticação
+
+    Todos os 59 endpoints estão cadastrados com `TIPOAUTENTICACAO=5 (Nenhum)`. A autenticação real (Bearer Token) é aplicada por uma **camada de proxy/gateway** no servidor de produção, NÃO pelo registro no banco.
+
+    ## Schemas de payload
+
+    O ESCALASOFT não armazena no banco o schema JSON de entrada/saída de cada endpoint — apenas formato (`application/json`). Os schemas exibidos abaixo são `type: object` vazios, com nota explícita. Para integradores: consultar a implementação real do servidor para o contrato exato.
+
+    ## Estrutura hierárquica no banco
+
+    Cada endpoint vem de uma cadeia de 4 níveis em `IN_WEBSERVICE*`:
+
+    ```
+    IN_WEBSERVICE (handle=1)
+      └─ IN_WEBSERVICEPRODUTO (tag OpenAPI)
+           └─ IN_WEBSERVICEPRODUTOPROCESSO
+                 └─ IN_WEBSERVICEOPERACAO (endpoint)
+    ```
+
+    O `operationId` de cada endpoint é `op{HANDLE}` — referência direta ao `IN_WEBSERVICEOPERACAO.HANDLE` no banco.
+servers:
+- url: http://contransoplog.ddns.net:9999/escalasoft
+  description: Servidor de produção Contech
+tags:
+- name: Administração
+  description: Administração
+- name: Armazém
+  description: Usado para processos do armazem
+- name: Coletor
+  description: .
+- name: Consulta Viagem
+  description: .
+- name: Estoque
+  description: Estoque
+- name: Estoque certo
+  description: /Estoque/
+- name: Manutenção de Equipamento
+  description: .
+- name: Material e suprimento
+  description: Material e suprimento
+- name: Operacional
+  description: a
+- name: Originario
+  description: /originario/
+- name: Pessoa
+  description: /fiscal/
+- name: Qualidade
+  description: /qualidade/
+- name: RH
+  description: .
+- name: Tecnologia
+  description: Tecnologia
+- name: Venda
+  description: Serviços do módulo de vendas
+paths:
+  /Coletor/Deposito/Consultar:
+    get:
+      tags:
+      - Coletor
+      summary: Consultar
+      description: |-
+        **Produto:** Coletor → **Processo:** Deposito
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 204`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op204
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Estoque/ConsultarEstoqueLote:
+    get:
+      tags:
+      - Estoque
+      summary: saldoestoque
+      description: |-
+        saldoestoque
+
+        **Produto:** Estoque → **Processo:** armazem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 10`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op10
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/Cadastrar:
+    post:
+      tags:
+      - Armazém
+      summary: 'Cadastrar ordem '
+      description: |-
+        Cria uma ordem de armazenagem
+
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 104`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op104
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/Confirmar:
+    post:
+      tags:
+      - Armazém
+      summary: Confirmar recebimento
+      description: |-
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 159`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op159
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/Consultar:
+    get:
+      tags:
+      - Armazém
+      summary: CONSULTAR ORDEM
+      description: |-
+        consulta ordem de armazenagem
+
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 191`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op191
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/Consultar/Status:
+    get:
+      tags:
+      - Armazém
+      summary: Consultar status ordem
+      description: |-
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 193`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op193
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/Derrubada:
+    post:
+      tags:
+      - Armazém
+      summary: cadastrar ordem derrubada
+      description: |-
+        /derrubada
+
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 124`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op124
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/EtapaExecutadaResumida:
+    get:
+      tags:
+      - Armazém
+      summary: consultar etapas executadas
+      description: |-
+        etapas encerradas aguardando recebimento no cliente
+
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 107`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op107
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/Imprimir:
+    get:
+      tags:
+      - Material e suprimento
+      summary: Imprimir
+      description: |-
+        **Produto:** Material e suprimento → **Processo:** Ordem de Compra
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 197`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op197
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/SolicitarCancelamento:
+    post:
+      tags:
+      - Armazém
+      summary: Cancelar ordem de armazenagem
+      description: |-
+        Cancelar a ordem de armazenagem
+
+        **Produto:** Armazém → **Processo:** Ordem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 106`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op106
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/cargaDescarga/consultar:
+    get:
+      tags:
+      - Armazém
+      summary: CONSULTAR CARGA E DESCARGA
+      description: |-
+        CONSULTAR CARGA E DESCARGA
+
+        **Produto:** Armazém → **Processo:** CARGA E DESCARGA
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 192`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op192
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/cargaDescarga/consultar/status:
+    get:
+      tags:
+      - Armazém
+      summary: Consultar status carga e descarga
+      description: |-
+        numeroCargaDescarga
+
+        **Produto:** Armazém → **Processo:** CARGA E DESCARGA
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 194`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op194
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/checklist/receber:
+    post:
+      tags:
+      - Armazém
+      summary: Recebimento
+      description: |-
+        **Produto:** Armazém → **Processo:** Checklist
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 186`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op186
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/checklist/responder:
+    post:
+      tags:
+      - Armazém
+      summary: Carregamento
+      description: |-
+        **Produto:** Armazém → **Processo:** Checklist
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 179`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op179
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Ordem/estoque/ConsultarEstoqueLote:
+    get:
+      tags:
+      - Armazém
+      summary: 'Consultar estoque '
+      description: |-
+        Consulta estoque do armazem
+
+        **Produto:** Armazém → **Processo:** Estoque
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 108`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op108
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Ordem/ordem/originario/cadastrar:
+    post:
+      tags:
+      - Armazém
+      summary: cadastrar originario
+      description: |-
+        /cadastrar
+
+        **Produto:** Armazém → **Processo:** Originario
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 105`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op105
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Pessoa/Cadastro:
+    post:
+      tags:
+      - Pessoa
+      summary: Cadastrar
+      description: |-
+        Usado para cadastrar uma pessoa
+
+        **Produto:** Pessoa → **Processo:** Pessoa
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 101`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op101
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Pessoa/Consultar:
+    get:
+      tags:
+      - Pessoa
+      summary: Buscar
+      description: |-
+        Busca cadastro de pessoa.
+
+        **Produto:** Pessoa → **Processo:** Pessoa
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 100`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op100
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Pessoa/alterar:
+    post:
+      tags:
+      - Pessoa
+      summary: Alterar Pessoa Web
+      description: |-
+        Edição de pessoas do sistema web.
+
+        **Produto:** Pessoa → **Processo:** Pessoa
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 176`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op176
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Pessoa/cadastrar:
+    post:
+      tags:
+      - Pessoa
+      summary: Cadastrar Pessoa Web
+      description: |-
+        Cadastro de pessoa e endereço fiscal da pessoa.
+
+        **Produto:** Pessoa → **Processo:** Pessoa
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 178`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op178
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Pessoa/endereco/cadastrar:
+    post:
+      tags:
+      - Pessoa
+      summary: Cadastrar
+      description: |-
+        Rota para cadastrar endereço da pessoa.
+
+        **Produto:** Pessoa → **Processo:** Endereço
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 177`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op177
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Pessoa/endereco/cep:
+    get:
+      tags:
+      - Pessoa
+      summary: CEP
+      description: |-
+        **Produto:** Pessoa → **Processo:** Endereço
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 175`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op175
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /Pessoa/infoComplementar:
+    post:
+      tags:
+      - Pessoa
+      summary: Info Complementar
+      description: |-
+        **Produto:** Pessoa → **Processo:** Pessoa
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 198`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op198
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Produto/CadastrarProduto:
+    post:
+      tags:
+      - Material e suprimento
+      summary: Incluir produto
+      description: |-
+        Usado para cadastrar produto
+
+        **Produto:** Material e suprimento → **Processo:** Produto
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 103`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op103
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /Produto/ConsultarProduto:
+    get:
+      tags:
+      - Material e suprimento
+      summary: Consultar produto
+      description: |-
+        Consultar produto
+
+        **Produto:** Material e suprimento → **Processo:** Produto
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 102`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op102
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /administracao/aprovacao/aprovar:
+    post:
+      tags:
+      - Administração
+      summary: Aprovar
+      description: |-
+        Aprovar
+
+        **Produto:** Administração → **Processo:** Aprovação
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 8`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op8
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /administracao/aprovacao/recusar:
+    post:
+      tags:
+      - Administração
+      summary: Recusar
+      description: |-
+        Recusar
+
+        **Produto:** Administração → **Processo:** Aprovação
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 9`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op9
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /consulta/cliente/viagem:
+    get:
+      tags:
+      - Consulta Viagem
+      summary: Viagem
+      description: |-
+        **Produto:** Consulta Viagem → **Processo:** Cliente
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 83`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op83
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /manutencaoEquipamento/equipamento/movimentarImobilizado:
+    post:
+      tags:
+      - Manutenção de Equipamento
+      summary: Movimentação de Imobilizado
+      description: |-
+        **Produto:** Manutenção de Equipamento → **Processo:** Equipamento
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 200`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Token _(real aplicada por gateway externo)_
+      operationId: op200
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/aprovarDespesa:
+    post:
+      tags:
+      - Operacional
+      summary: Aprovar Despesa de Viagem
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 203`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op203
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/baixarAnexoViagem:
+    get:
+      tags:
+      - Operacional
+      summary: Baixar Anexo de Viagem
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 196`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op196
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /operacional/viagem/baixarPdfOriginario:
+    post:
+      tags:
+      - Operacional
+      summary: baixarPdfOriginario
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 56`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op56
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/baixaritens:
+    post:
+      tags:
+      - Operacional
+      summary: Baixar Item
+      description: |-
+        Operação que efetua a baixa dos itens do romaneio
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 53`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op53
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/baixaritenslocal:
+    post:
+      tags:
+      - Operacional
+      summary: Baixar itens local
+      description: |-
+        Baixar itens local
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 54`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op54
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/baixarpdf:
+    post:
+      tags:
+      - Operacional
+      summary: Baixar PDF viagem
+      description: |-
+        Baixar PDF viagem
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 55`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op55
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/cadastrarDespesa:
+    post:
+      tags:
+      - Operacional
+      summary: Cadastrar Despesa
+      description: |-
+        processo de cadastrar uma despesa de viagem
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 57`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op57
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/cadastrarOcorrencia:
+    post:
+      tags:
+      - Operacional
+      summary: Cadastrar Ocorrência
+      description: |-
+        Rota para cadastro de ocorrências de viagem.
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 158`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op158
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/efetuarchegada:
+    post:
+      tags:
+      - Operacional
+      summary: Efetuar Chegada da Viagem
+      description: |-
+        Efetuar Chegada da Viagem
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 58`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op58
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/efetuarsaida:
+    post:
+      tags:
+      - Operacional
+      summary: Efetuar saída da viagem
+      description: |-
+        Efetuar saída da viagem
+
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 59`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op59
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/encerrar:
+    get:
+      tags:
+      - Operacional
+      summary: Encerrar Viagem
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 202`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op202
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /operacional/viagem/liberar:
+    post:
+      tags:
+      - Operacional
+      summary: Liberar Viagem
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 201`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op201
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /operacional/viagem/viagemAnexo:
+    post:
+      tags:
+      - Operacional
+      summary: Incluir Anexo
+      description: |-
+        **Produto:** Operacional → **Processo:** Viagem
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 138`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op138
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /originario/cadastrar:
+    post:
+      tags:
+      - Originario
+      summary: cadastrar originario
+      description: |-
+        /cadastrar
+
+        **Produto:** Originario → **Processo:** /
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 111`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op111
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /originario/cancelar:
+    post:
+      tags:
+      - Originario
+      summary: cancelar originario
+      description: |-
+        **Produto:** Originario → **Processo:** /
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 139`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op139
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /originario/importar:
+    post:
+      tags:
+      - Originario
+      summary: importar originario
+      description: |-
+        **Produto:** Originario → **Processo:** /
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 137`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op137
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /qualidade/checklist/anexo/Incluir:
+    post:
+      tags:
+      - Qualidade
+      summary: Anexar no checklist
+      description: |-
+        /anexar
+
+        **Produto:** Qualidade → **Processo:** Checklist
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 64`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op64
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /qualidade/checklist/executar:
+    post:
+      tags:
+      - Qualidade
+      summary: Executar
+      description: |-
+        Enviar checklist
+
+        **Produto:** Qualidade → **Processo:** Checklist
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 63`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op63
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /rh/vaga/cadastrar:
+    post:
+      tags:
+      - RH
+      summary: Cadastrar Vaga
+      description: |-
+        **Produto:** RH → **Processo:** Vaga
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 131`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op131
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /tecnologia/servicedesk/buscaratualizacao:
+    post:
+      tags:
+      - Tecnologia
+      summary: Buscar atualização
+      description: |-
+        Buscar atualização
+
+        **Produto:** Tecnologia → **Processo:** Service Desk
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 26`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op26
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /tecnologia/servicedesk/confirmarrecebimento:
+    post:
+      tags:
+      - Tecnologia
+      summary: Enviar confirmação de recebimento
+      description: |-
+        Enviar confirmação de recebimento
+
+        **Produto:** Tecnologia → **Processo:** Service Desk
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 27`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op27
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /tecnologia/servicedesk/importar:
+    post:
+      tags:
+      - Tecnologia
+      summary: Enviar Help Desk
+      description: |-
+        Enviar Help Desk
+
+        **Produto:** Tecnologia → **Processo:** Service Desk
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 28`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op28
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/boletosfaturamento:
+    post:
+      tags:
+      - Venda
+      summary: Busca boletos do faturamento
+      description: |-
+        Busca o boletos gerados pelo faturamento
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 7`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op7
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/carregamentoefetuado:
+    post:
+      tags:
+      - Venda
+      summary: Carregamento efetuado
+      description: |-
+        Indica que o carregamento foi finalizado
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 6`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op6
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/faturar:
+    post:
+      tags:
+      - Venda
+      summary: Faturar
+      description: |-
+        Solicita que a expedição fature
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 4`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op4
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/finalizouseparacao:
+    post:
+      tags:
+      - Venda
+      summary: Finalizou separação de mercadoria
+      description: |-
+        Indica que a mercadoria está separada (e embalada), passando o peso e volume total a ser expedido.
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 3`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op3
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/iniciouseparacao:
+    post:
+      tags:
+      - Venda
+      summary: Marca que iniciou separação
+      description: |-
+        Marca a expedição da ordem de venda como Em separação
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 2`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op2
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+  /venda/ordemvenda/separacaodisponivel:
+    get:
+      tags:
+      - Venda
+      summary: Pedidos disponíveis para separação
+      description: |-
+        Os pedidos que não iniciaram separação são retornados em uma lista de pedidos.
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 1`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op1
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+  /venda/ordemvenda/xmlfaturamento:
+    post:
+      tags:
+      - Venda
+      summary: 'Busca xml do faturamento '
+      description: |-
+        Busca o xml gerado pelo faturamento
+
+        **Produto:** Venda → **Processo:** Ordem de venda
+
+        **Handle no banco:** `IN_WEBSERVICEOPERACAO.HANDLE = 5`
+
+        **Status:** Ativo
+
+        **Autenticação cadastrada:** Nenhum _(real aplicada por gateway externo)_
+      operationId: op5
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                description: ⚠️ Schema de resposta não cadastrado no banco — preencher conforme implementação real do servidor.
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: ⚠️ Schema de requisição não cadastrado no banco — preencher conforme implementação real do servidor.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Autenticação aplicada pelo gateway de produção (não pelo registro no banco).
+security:
+- BearerAuth: []

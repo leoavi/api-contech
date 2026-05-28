@@ -7640,6 +7640,195 @@ paths:
                         Lista (Pesquisa):
                           type: string
                           x-origem: Pesquisa — valor usado em lookup no banco
+                        NumeroControle:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.NumeroControle'
+                        NumeroPedido:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.NumeroPedido'
+                        CepOrigem:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.CepOrigem'
+                        CepDestino:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.CepDestino'
+                        Observacao:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Observacao'
+                        NaturezaOperacao:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.NaturezaOperacao'
+                        NaturezaOperacao (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        NaturezaMercadoria:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.NaturezaMercadoria'
+                        NaturezaMercadoria (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        OrdemProposta:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.OrdemProposta'
+                        OrdemProposta (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        UnidadeMedida:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.UnidadeMedida'
+                        UnidadeMedida (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        UnidadeVolume:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.UnidadeVolume'
+                        UnidadeVolume (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        MunicipioOrigem:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.MunicipioOrigem'
+                        MunicipioOrigem (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        MunicipioDestino:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.MunicipioDestino'
+                        MunicipioDestino (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Remetente:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Remetente'
+                        Remetente (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Destinatario:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Destinatario'
+                        Destinatario (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Requisitante:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Requisitante'
+                        Requisitante (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TipoTransporte:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TipoTransporte'
+                        TipoTransporte (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TipoVeiculo:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TipoVeiculo'
+                        TipoVeiculo (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        CondicaoPagamento:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.CondicaoPagamento'
+                        CondicaoPagamento (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        FormaPagamentoFinanceiro:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.FormaPagamentoFinanceiro'
+                        FormaPagamentoFinanceiro (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        PapelTomador:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.PapelTomador'
+                        PapelTomador (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TomadorServico:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TomadorServico'
+                        TomadorServico (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TomadorServicoDestino:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TomadorServicoDestino'
+                        TomadorServicoDestino (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        FilialDestino:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.FilialDestino'
+                        FilialDestino (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        AeroportoOrigem:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.AeroportoOrigem'
+                        AeroportoOrigem (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        AeroportoDestino:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.AeroportoDestino'
+                        AeroportoDestino (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        FormaPagamento:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.FormaPagamento'
+                        FormaPagamento (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TerminalColetaVazio:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TerminalColetaVazio'
+                        TerminalColetaVazio (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        TerminalEntregaVazio:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.TerminalEntregaVazio'
+                        TerminalEntregaVazio (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        AgenteVenda:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.AgenteVenda'
+                        AgenteVenda (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Transportadora:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Transportadora'
+                        Transportadora (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Modalidade:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Modalidade'
+                        Modalidade (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Modal:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Modal'
+                        Modal (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Vitrine:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Vitrine'
+                        Vitrine (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Item:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Item'
+                        Item (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
                   required:
                   - Cotacao
               x-layout-handle: 1444
@@ -7725,6 +7914,94 @@ paths:
                           type: number
                         NaturezaOperacaoNome:
                           type: string
+                        NaturezaMercadoria:
+                          type: number
+                        OrdemProposta:
+                          type: number
+                        NumeroControle:
+                          type: string
+                        NumeroPedido:
+                          type: string
+                        UnidadeMedida:
+                          type: number
+                        QuantidadeVolume:
+                          type: number
+                        UnidadeVolume:
+                          type: number
+                        Densidade:
+                          type: number
+                        PesoCubado:
+                          type: number
+                        PesoLotacao:
+                          type: number
+                        ValorSegurado:
+                          type: number
+                        Observacao:
+                          type: string
+                        CepOrigem:
+                          type: string
+                        CepDestino:
+                          type: string
+                        MunicipioOrigem:
+                          type: number
+                        MunicipioDestino:
+                          type: number
+                        Remetente:
+                          type: number
+                        Destinatario:
+                          type: number
+                        Requisitante:
+                          type: number
+                        TipoTransporte:
+                          type: number
+                        TipoVeiculo:
+                          type: number
+                        QuantidadeEixo:
+                          type: number
+                        CondicaoPagamento:
+                          type: number
+                        FormaPagamentoFinanceiro:
+                          type: number
+                        DataColeta:
+                          type: string
+                        PapelTomador:
+                          type: number
+                        TomadorServico:
+                          type: number
+                        TomadorServicoDestino:
+                          type: number
+                        FilialDestino:
+                          type: number
+                        AeroportoOrigem:
+                          type: number
+                        AeroportoDestino:
+                          type: number
+                        FormaPagamento:
+                          type: number
+                        TerminalColetaVazio:
+                          type: number
+                        TerminalEntregaVazio:
+                          type: number
+                        AgenteVenda:
+                          type: number
+                        Transportadora:
+                          type: number
+                        Modalidade:
+                          type: number
+                        Modal:
+                          type: number
+                        Vitrine:
+                          type: number
+                        Item:
+                          type: number
+                        SaldoTransportar:
+                          type: number
+                        PrazoExpedicao:
+                          type: number
+                        PrazoEntrega:
+                          type: number
+                        PrazoEntregaHoras:
+                          type: number
                 x-layout-handle: 1443
                 x-exportacao-handle: 99
                 x-exportacao-versao: '1.00'
@@ -7819,9 +8096,6 @@ paths:
                             type: integer
                             x-origem: Valor fixo — constante hardcoded no layout
                             default: '1'
-                          Filial (Fixo 3):
-                            type: string
-                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Filial'
                           Status (Fixo 1 Cadastrada):
                             type: integer
                             x-origem: Valor fixo — constante hardcoded no layout
@@ -7852,6 +8126,195 @@ paths:
                             type: string
                             x-origem: 'Campo JSON intermediario — destino: Cotacao.NaturezaOperacao'
                           NaturezaOperacao (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          NumeroControle:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.NumeroControle'
+                          NumeroPedido:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.NumeroPedido'
+                          CepOrigem:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.CepOrigem'
+                          CepDestino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.CepDestino'
+                          Observacao:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Observacao'
+                          NaturezaMercadoria:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.NaturezaMercadoria'
+                          NaturezaMercadoria (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          OrdemProposta:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.OrdemProposta'
+                          OrdemProposta (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          UnidadeMedida:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.UnidadeMedida'
+                          UnidadeMedida (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          UnidadeVolume:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.UnidadeVolume'
+                          UnidadeVolume (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          MunicipioOrigem:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.MunicipioOrigem'
+                          MunicipioOrigem (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          MunicipioDestino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.MunicipioDestino'
+                          MunicipioDestino (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Remetente:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Remetente'
+                          Remetente (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Destinatario:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Destinatario'
+                          Destinatario (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Requisitante:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Requisitante'
+                          Requisitante (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TipoTransporte:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TipoTransporte'
+                          TipoTransporte (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TipoVeiculo:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TipoVeiculo'
+                          TipoVeiculo (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          CondicaoPagamento:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.CondicaoPagamento'
+                          CondicaoPagamento (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          FormaPagamentoFinanceiro:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.FormaPagamentoFinanceiro'
+                          FormaPagamentoFinanceiro (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          PapelTomador:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.PapelTomador'
+                          PapelTomador (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TomadorServico:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TomadorServico'
+                          TomadorServico (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TomadorServicoDestino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TomadorServicoDestino'
+                          TomadorServicoDestino (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          FilialDestino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.FilialDestino'
+                          FilialDestino (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          AeroportoOrigem:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.AeroportoOrigem'
+                          AeroportoOrigem (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          AeroportoDestino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.AeroportoDestino'
+                          AeroportoDestino (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          FormaPagamento:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.FormaPagamento'
+                          FormaPagamento (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TerminalColetaVazio:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TerminalColetaVazio'
+                          TerminalColetaVazio (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          TerminalEntregaVazio:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.TerminalEntregaVazio'
+                          TerminalEntregaVazio (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          AgenteVenda:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.AgenteVenda'
+                          AgenteVenda (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Transportadora:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Transportadora'
+                          Transportadora (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Modalidade:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Modalidade'
+                          Modalidade (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Modal:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Modal'
+                          Modal (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Vitrine:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Vitrine'
+                          Vitrine (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Item:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Item'
+                          Item (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Filial:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Filial'
+                          Filial (Pesquisa):
                             type: string
                             x-origem: Pesquisa — valor usado em lookup no banco
                           Itens:
@@ -7895,6 +8358,37 @@ paths:
                                   type: string
                                   x-origem: Valor fixo — constante hardcoded no layout
                                   default: S
+                          ValidadeCotacao:
+                            type: array
+                            description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar
+                              caso a caso.'
+                            items:
+                              type: object
+                              x-acoes-banco:
+                              - Incluir -> MS_INFOCOMPLEMENTAR
+                              properties:
+                                Data:
+                                  type: string
+                                  x-origem: 'Campo JSON intermediario — destino: ValidadeCotacao.Data'
+                                  x-mascara: dd/MM/yyyy
+                                Cotacao (outra linha):
+                                  type: string
+                                Origem OP_COTACAO (fixo):
+                                  type: integer
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: '2170'
+                                Tipo 2115 (fixo):
+                                  type: integer
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: '2115'
+                                TipoCampoData (fixo):
+                                  type: integer
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: '3'
+                                StatusAtivo (fixo):
+                                  type: integer
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: '4'
                   required:
                   - Cotacao
               x-layout-handle: 1438
@@ -7966,6 +8460,102 @@ paths:
                           type: number
                         NaturezaOperacaoNome:
                           type: string
+                        NaturezaMercadoria:
+                          type: number
+                        OrdemProposta:
+                          type: number
+                        NumeroControle:
+                          type: string
+                        NumeroPedido:
+                          type: string
+                        Quantidade:
+                          type: number
+                        UnidadeMedida:
+                          type: number
+                        QuantidadeVolume:
+                          type: number
+                        UnidadeVolume:
+                          type: number
+                        Peso:
+                          type: number
+                        Volume:
+                          type: number
+                        Densidade:
+                          type: number
+                        PesoCubado:
+                          type: number
+                        PesoLotacao:
+                          type: number
+                        ValorMercadoria:
+                          type: number
+                        ValorSegurado:
+                          type: number
+                        Observacao:
+                          type: string
+                        CepOrigem:
+                          type: string
+                        CepDestino:
+                          type: string
+                        MunicipioOrigem:
+                          type: number
+                        MunicipioDestino:
+                          type: number
+                        Remetente:
+                          type: number
+                        Destinatario:
+                          type: number
+                        Requisitante:
+                          type: number
+                        TipoTransporte:
+                          type: number
+                        TipoVeiculo:
+                          type: number
+                        QuantidadeEixo:
+                          type: number
+                        CondicaoPagamento:
+                          type: number
+                        FormaPagamentoFinanceiro:
+                          type: number
+                        DataColeta:
+                          type: string
+                        PapelTomador:
+                          type: number
+                        TomadorServico:
+                          type: number
+                        TomadorServicoDestino:
+                          type: number
+                        FilialDestino:
+                          type: number
+                        AeroportoOrigem:
+                          type: number
+                        AeroportoDestino:
+                          type: number
+                        FormaPagamento:
+                          type: number
+                        TerminalColetaVazio:
+                          type: number
+                        TerminalEntregaVazio:
+                          type: number
+                        AgenteVenda:
+                          type: number
+                        Transportadora:
+                          type: number
+                        Modalidade:
+                          type: number
+                        Modal:
+                          type: number
+                        Vitrine:
+                          type: number
+                        Item:
+                          type: number
+                        SaldoTransportar:
+                          type: number
+                        PrazoExpedicao:
+                          type: number
+                        PrazoEntrega:
+                          type: number
+                        PrazoEntregaHoras:
+                          type: number
                 x-layout-handle: 1441
                 x-exportacao-handle: 98
                 x-exportacao-versao: '1.00'

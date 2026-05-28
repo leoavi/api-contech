@@ -2,39 +2,7 @@ openapi: 3.0.0
 info:
   title: API Contech — Produção (espelho do banco ESCALASOFT)
   version: 2.0.0-producao-2026-05-28
-  description: |-
-    Catálogo dos endpoints **realmente cadastrados** em `IN_WEBSERVICE` (handle=1, "1 - Web service Escalasoft") no banco ESCALASOFT, com **schemas de request/response reconstruídos** a partir das tabelas `MS_LAYOUTFORMATO*` (entrada) e `MS_LAYOUTJSONEXPORTACAO`+`MS_JSONOBJETO` (saída). Espelho de produção em 28/05/2026.
-
-    ## Mecanismo do schema
-
-    Cada endpoint é publicado em `IN_SERVICOWEBOPERACAO`, que aponta para 2 layouts (`MS_LAYOUT`):
-
-    - **Request body** (TIPOLAYOUT=1 Importação): estrutura definida em `MS_LAYOUTFORMATOLINHA` (árvore via `NIVELSUPERIOR`) + `MS_LAYOUTFORMATOLINHACOLUNA` (atributos JSON). Cada nó também declara `MS_LAYOUTFORMATOLINHATABELA` com as **ações** que serão disparadas no banco (Incluir, Alterar, Executar processo).
-    - **Response body** (TIPOLAYOUT=2 Exportação): `MS_LAYOUTJSONEXPORTACAO` + `MS_JSONOBJETO` (árvore via `NIVELSUPERIOR`). Cada nó do tipo `Lista` carrega SQL que popula a coleção via `@MS_EDI|HANDLE` (variável pipe-bind do Escalasoft).
-
-    ## Estatísticas
-
-    - **72 endpoints ativos** no WS=1
-    - **60 têm publicação** (`IN_SERVICOWEBOPERACAO`)
-    - **43 têm schema de request reconstruído** das tabelas
-    - **54 têm schema de response reconstruído**
-    - **12 sem publicação** (schema marcado vazio + aviso)
-
-    ## Convenções
-
-    - `operationId` = `op{HANDLE}` (referência direta a `IN_WEBSERVICEOPERACAO.HANDLE`)
-    - `x-layout-handle` = `MS_LAYOUT.HANDLE` que originou o schema
-    - `x-layout-versao` / `x-exportacao-versao` = versão do formato
-    - `x-acoes-banco` = lista das ações que cada nó dispara no banco (request)
-    - `x-mascara` = máscara de formatação cadastrada no banco
-
-    ## Servidor
-
-    `http://contransoplog.ddns.net:9999/escalasoft`
-
-    ## Autenticação
-
-    Endpoints com `EHAUTENTICAR=S` em `IN_SERVICOWEBOPERACAO` exigem **Bearer Token** aplicado pelo gateway. Endpoints sem autenticação (raros) ficam com `security: []`.
+  description: ''
 servers:
 - url: http://contransoplog.ddns.net:9999/escalasoft
   description: Servidor de produção Contech

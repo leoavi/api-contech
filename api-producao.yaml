@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
   title: API Contech — Produção (espelho do banco ESCALASOFT)
-  version: 2.0.0-producao-2026-05-20
+  version: 2.0.0-producao-2026-05-28
   description: |-
-    Catálogo dos endpoints **realmente cadastrados** em `IN_WEBSERVICE` (handle=1, "1 - Web service Escalasoft") no banco ESCALASOFT, com **schemas de request/response reconstruídos** a partir das tabelas `MS_LAYOUTFORMATO*` (entrada) e `MS_LAYOUTJSONEXPORTACAO`+`MS_JSONOBJETO` (saída). Espelho de produção em 20/05/2026.
+    Catálogo dos endpoints **realmente cadastrados** em `IN_WEBSERVICE` (handle=1, "1 - Web service Escalasoft") no banco ESCALASOFT, com **schemas de request/response reconstruídos** a partir das tabelas `MS_LAYOUTFORMATO*` (entrada) e `MS_LAYOUTJSONEXPORTACAO`+`MS_JSONOBJETO` (saída). Espelho de produção em 28/05/2026.
 
     ## Mecanismo do schema
 
@@ -14,10 +14,10 @@ info:
 
     ## Estatísticas
 
-    - **59 endpoints ativos** no WS=1
-    - **47 têm publicação** (`IN_SERVICOWEBOPERACAO`)
-    - **34 têm schema de request reconstruído** das tabelas
-    - **41 têm schema de response reconstruído**
+    - **72 endpoints ativos** no WS=1
+    - **60 têm publicação** (`IN_SERVICOWEBOPERACAO`)
+    - **43 têm schema de request reconstruído** das tabelas
+    - **54 têm schema de response reconstruído**
     - **12 sem publicação** (schema marcado vazio + aviso)
 
     ## Convenções
@@ -43,10 +43,16 @@ tags:
   description: Administração
 - name: Armazém
   description: Usado para processos do armazem
+- name: BI
+  description: Endpoints de consulta dos metadados do modulo BI (componentes, paineis, indicadores).
 - name: Coletor
   description: .
+- name: Comercial
+  description: Endpoints comerciais (cotacao, pedido, contrato).
 - name: Consulta Viagem
   description: .
+- name: Contabil
+  description: Endpoints contabeis (plano de contas, lancamentos, balancete).
 - name: Estoque
   description: Estoque
 - name: Estoque certo
@@ -65,6 +71,8 @@ tags:
   description: /qualidade/
 - name: RH
   description: .
+- name: Tarefa
+  description: Endpoints de cadastro/consulta de tarefas (TA_ORDEM)
 - name: Tecnologia
   description: Tecnologia
 - name: Venda
@@ -97,6 +105,394 @@ paths:
         '500':
           description: Erro interno do servidor
       security: []
+  /Coletor/conferencia/incluir:
+    post:
+      tags:
+      - Coletor
+      summary: Incluir Conferencia
+      description: |-
+        Cria AM_ORDEMITEMCONFERENCIA (conferencia de recebimento). Body: {"Lista":[{"Conferencia":{"ItemLote":N,"Quantidade":X,"PesoBruto":Y,"PesoLiquido":Z,"QuantidadeVolume":N}}]}. Auto-fill: Tipo=1, Status=5, DATA=GETDATE, EHOBRIGATORIOLEITURA=S.
+
+        **Produto:** Coletor → **Processo:** Conferencia
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 224`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 218`
+
+        **Layout request:** 1458 (Importacao incluir conferencia)
+
+        **Layout retorno:** 1459 (Retorno incluir conferencia)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op224
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Codigo:
+                          type: string
+                        Handle:
+                          type: number
+                        Mensagem:
+                          type: string
+                x-layout-handle: 1459
+                x-exportacao-handle: 111
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Conferencia:
+                      type: array
+                      description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar caso
+                        a caso.'
+                      items:
+                        type: object
+                        x-acoes-banco:
+                        - Incluir -> AM_ORDEMITEMCONFERENCIA
+                        properties:
+                          ItemLote:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Conferencia.ItemLote'
+                            maxLength: 10
+                          Quantidade:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Conferencia.Quantidade'
+                            maxLength: 10
+                          QuantidadeVolume:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Conferencia.QuantidadeVolume'
+                            maxLength: 10
+                          PesoBruto:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Conferencia.PesoBruto'
+                            maxLength: 10
+                          PesoLiquido:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Conferencia.PesoLiquido'
+                            maxLength: 10
+                          Tipo (Fixo 1):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          Status (Fixo 5):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '5'
+                          EhObrigatorioLeitura (Fixo S):
+                            type: string
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: S
+                          Data (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                          StatusData (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                  required:
+                  - Conferencia
+              x-layout-handle: 1458
+              x-layout-versao: '1.00'
+  /Coletor/tarefa-operador/encerrar:
+    post:
+      tags:
+      - Coletor
+      summary: Encerrar Tarefa Operador
+      description: |-
+        Muda STATUS de CD_TAREFAOPERADOR pra 4 + preenche TERMINO=GETDATE. Espelha ICD_TAREFAOPERADOR.Encerrar().
+
+        **Produto:** Coletor → **Processo:** Tarefa Operador
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 223`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 217`
+
+        **Layout request:** 1456 (Alterar tarefa operador encerrar)
+
+        **Layout retorno:** 1457 (Retorno tarefa operador encerrar)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op223
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Codigo:
+                          type: string
+                        Handle:
+                          type: number
+                        Mensagem:
+                          type: string
+                x-layout-handle: 1457
+                x-exportacao-handle: 110
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Tarefa:
+                      type: object
+                      x-acoes-banco:
+                      - Alterar -> CD_TAREFAOPERADOR
+                      properties:
+                        Numero:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Tarefa.Numero'
+                          maxLength: 10
+                        Status (Fixo 4):
+                          type: integer
+                          x-origem: Valor fixo — constante hardcoded no layout
+                          default: '4'
+                        StatusData (GETDATE):
+                          type: string
+                          x-origem: Computado por SQL inline
+                          x-mascara: dd/mm/yyyy hh:nn:ss
+                        TERMINO (GETDATE):
+                          type: string
+                          x-origem: Computado por SQL inline
+                          x-mascara: dd/mm/yyyy hh:nn:ss
+                      required:
+                      - Numero
+                  required:
+                  - Tarefa
+              x-layout-handle: 1456
+              x-layout-versao: '1.00'
+  /Coletor/tarefa-operador/iniciar:
+    post:
+      tags:
+      - Coletor
+      summary: Iniciar Tarefa Operador
+      description: |-
+        Muda STATUS de CD_TAREFAOPERADOR pra 3 + preenche INICIO=GETDATE. Espelha ICD_TAREFAOPERADOR.Iniciar().
+
+        **Produto:** Coletor → **Processo:** Tarefa Operador
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 222`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 216`
+
+        **Layout request:** 1454 (Alterar tarefa operador iniciar)
+
+        **Layout retorno:** 1455 (Retorno tarefa operador iniciar)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op222
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Codigo:
+                          type: string
+                        Handle:
+                          type: number
+                        Mensagem:
+                          type: string
+                x-layout-handle: 1455
+                x-exportacao-handle: 109
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Tarefa:
+                      type: object
+                      x-acoes-banco:
+                      - Alterar -> CD_TAREFAOPERADOR
+                      properties:
+                        Numero:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Tarefa.Numero'
+                          maxLength: 10
+                        Status (Fixo 3):
+                          type: integer
+                          x-origem: Valor fixo — constante hardcoded no layout
+                          default: '3'
+                        StatusData (GETDATE):
+                          type: string
+                          x-origem: Computado por SQL inline
+                          x-mascara: dd/mm/yyyy hh:nn:ss
+                        INICIO (GETDATE):
+                          type: string
+                          x-origem: Computado por SQL inline
+                          x-mascara: dd/mm/yyyy hh:nn:ss
+                      required:
+                      - Numero
+                  required:
+                  - Tarefa
+              x-layout-handle: 1454
+              x-layout-versao: '1.00'
+  /Coletor/tarefa/executar:
+    post:
+      tags:
+      - Coletor
+      summary: Executar Tarefa
+      description: |-
+        Enfileira comando do coletor industrial em MS_EXECUCAOTAREFA. Body: {"Tarefa":{"Task":1-13,"Parametro":"KEY|VAL;KEY|VAL","Referencia":N}}. STATUS=2 (Pendente). Daemon Delphi processa via polling.
+
+        **Produto:** Coletor → **Processo:** Tarefa
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 221`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 215`
+
+        **Layout request:** 1452 (Importacao executar tarefa coletor)
+
+        **Layout retorno:** 1453 (Retorno executar tarefa coletor)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op221
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Codigo:
+                          type: string
+                        Handle:
+                          type: number
+                        Mensagem:
+                          type: string
+                x-layout-handle: 1453
+                x-exportacao-handle: 108
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Tarefa:
+                      type: array
+                      description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar caso
+                        a caso.'
+                      items:
+                        type: object
+                        x-acoes-banco:
+                        - Incluir -> MS_EXECUCAOTAREFA
+                        properties:
+                          Task:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Task'
+                            maxLength: 10
+                          Parametro:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Parametro'
+                            maxLength: 4000
+                          Referencia:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Referencia'
+                            maxLength: 10
+                          Status (Fixo 6 Ag execucao):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '6'
+                          Tentativa (Fixo 0):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '0'
+                          StatusData (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                        required:
+                        - Parametro
+                        - Referencia
+                        - Task
+                  required:
+                  - Tarefa
+              x-layout-handle: 1452
+              x-layout-versao: '1.00'
   /Estoque/ConsultarEstoqueLote:
     get:
       tags:
@@ -7118,6 +7514,501 @@ paths:
                   - Usuário
               x-layout-handle: 482
               x-layout-versao: '1.00'
+  /bi/componente/consultar-sqlcomum:
+    get:
+      tags:
+      - BI
+      summary: Consultar SQLCOMUM
+      description: |-
+        Retorna o texto do campo BI_COMPONENTE.SQLCOMUM para o componente identificado por HANDLE.
+        Recebe 'handle' como query string. Quando o componente nao tiver SQLCOMUM (TIPO=6 cards de
+        indicador, TIPO=4 medidores), o campo SqlComum vem null e Aviso explica onde buscar
+        (BI_COMPONENTEINDICADOR.SQLCOMUMVALOR). Auth Bearer aplicada pelo gateway externo.
+
+        **Produto:** BI → **Processo:** Componente
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 214`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 208`
+
+        **Layout request:** 1432 (Importacao consultar componente BI)
+
+        **Layout retorno:** 1433 (Retorno consultar componente BI)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op214
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Componentes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Nome:
+                          type: string
+                        Codigo:
+                          type: number
+                        TipoComponente:
+                          type: number
+                        Painel:
+                          type: number
+                        IdentificadorInterno:
+                          type: string
+                        Observacao:
+                          type: string
+                        SqlComum:
+                          type: string
+                        Aviso:
+                          type: string
+                x-layout-handle: 1433
+                x-exportacao-handle: 94
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+  /comercial/cotacao/alterar:
+    put:
+      tags:
+      - Comercial
+      summary: Alterar Cotacao
+      description: |-
+        Altera cotacao em rascunho (status 1=Cadastrada). Chave de busca: Numero (no body Lista.Cotacao). Campos editaveis: Solicitante, Tipo, Tabela, Lista, Validade (Tipo obrigatorio pelo motor). Retorna Handle/Numero.
+
+        **Produto:** Comercial → **Processo:** Cotacao
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 220`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 214`
+
+        **Layout request:** 1444 (Importacao alterar cotacao)
+
+        **Layout retorno:** 1445 (Retorno alterar cotacao)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op220
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: string
+                        Erro:
+                          type: string
+                x-layout-handle: 1445
+                x-exportacao-handle: 100
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Cotacao:
+                      type: object
+                      x-acoes-banco:
+                      - Alterar -> OP_COTACAO
+                      properties:
+                        Numero:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Numero'
+                        Solicitante:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Solicitante'
+                        Validade:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Validade'
+                          x-mascara: dd/MM/yyyy hh:nn
+                        Tipo:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Tipo'
+                        Tipo (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Tabela:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Tabela'
+                        Tabela (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                        Lista:
+                          type: string
+                          x-origem: 'Campo JSON intermediario — destino: Cotacao.Lista'
+                        Lista (Pesquisa):
+                          type: string
+                          x-origem: Pesquisa — valor usado em lookup no banco
+                  required:
+                  - Cotacao
+              x-layout-handle: 1444
+              x-layout-versao: '1.00'
+  /comercial/cotacao/consultar:
+    get:
+      tags:
+      - Comercial
+      summary: Consultar Cotacao
+      description: |-
+        Consulta detalhe de 1 cotacao por handle. Parametro via QUERY STRING: handle (obrigatorio). Retorna cabecalho completo com nomes resolvidos.
+
+        **Produto:** Comercial → **Processo:** Cotacao
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 219`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 213`
+
+        **Layout retorno:** 1443 (Retorno consultar cotacao)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op219
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Cotacao:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: string
+                        Empresa:
+                          type: number
+                        Filial:
+                          type: number
+                        Data:
+                          type: string
+                        Solicitante:
+                          type: string
+                        Status:
+                          type: number
+                        StatusNome:
+                          type: string
+                        Tipo:
+                          type: number
+                        TipoNome:
+                          type: string
+                        Tabela:
+                          type: number
+                        TabelaNome:
+                          type: string
+                        Lista:
+                          type: number
+                        ListaNome:
+                          type: string
+                        Peso:
+                          type: number
+                        Volume:
+                          type: number
+                        ValorMercadoria:
+                          type: number
+                        ValorTotal:
+                          type: number
+                        Quantidade:
+                          type: number
+                        Validade:
+                          type: string
+                        StatusData:
+                          type: string
+                        OperacaoTransporte:
+                          type: number
+                        OperacaoTransporteNome:
+                          type: string
+                        NaturezaOperacao:
+                          type: number
+                        NaturezaOperacaoNome:
+                          type: string
+                x-layout-handle: 1443
+                x-exportacao-handle: 99
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+  /comercial/cotacao/incluir:
+    post:
+      tags:
+      - Comercial
+      summary: Incluir Cotacao
+      description: |-
+        Inclui cotacao em OP_COTACAO + itens em OP_COTACAOITEM. Body: Lista.Cotacao com Tipo, OperacaoTransporte, Filial, Solicitante, Tabela, NaturezaOperacao, Lista (lookups por nome) e array Itens[] (Item, UnidadeMedida por nome; Valor; Ordem). Itens gravados como manuais (EHMANUAL=S). Retorna Handle/Numero da cotacao criada.
+
+        **Produto:** Comercial → **Processo:** Cotacao
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 217`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 211`
+
+        **Layout request:** 1438 (Importacao incluir Cotacao)
+
+        **Layout retorno:** 1439 (Retorno incluir Cotacao)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op217
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: string
+                        Erro:
+                          type: string
+                x-layout-handle: 1439
+                x-exportacao-handle: 97
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Cotacao:
+                      type: array
+                      description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar caso
+                        a caso.'
+                      items:
+                        type: object
+                        x-acoes-banco:
+                        - Incluir -> OP_COTACAO
+                        properties:
+                          Tipo:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Tipo'
+                          Tipo (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Solicitante:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Solicitante'
+                            maxLength: 120
+                          Empresa (Fixo 1):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          Filial (Fixo 3):
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Filial'
+                          Status (Fixo 1 Cadastrada):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          Data (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                          Tabela:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Tabela'
+                          Tabela (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Lista:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.Lista'
+                          Lista (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          OperacaoTransporte:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.OperacaoTransporte'
+                          OperacaoTransporte (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          NaturezaOperacao:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Cotacao.NaturezaOperacao'
+                          NaturezaOperacao (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Itens:
+                            type: array
+                            description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar
+                              caso a caso.'
+                            items:
+                              type: object
+                              x-acoes-banco:
+                              - Incluir -> OP_COTACAOITEM
+                              properties:
+                                Item:
+                                  type: string
+                                  x-origem: 'Campo JSON intermediario — destino: Itens.Item'
+                                Item (Pesquisa):
+                                  type: string
+                                  x-origem: Pesquisa — valor usado em lookup no banco
+                                UnidadeMedida:
+                                  type: string
+                                  x-origem: 'Campo JSON intermediario — destino: Itens.UnidadeMedida'
+                                UnidadeMedida (Pesquisa):
+                                  type: string
+                                  x-origem: Pesquisa — valor usado em lookup no banco
+                                Valor:
+                                  type: string
+                                  x-origem: 'Campo JSON intermediario — destino: Itens.Valor'
+                                Ordem:
+                                  type: string
+                                  x-origem: 'Campo JSON intermediario — destino: Itens.Ordem'
+                                Cotacao (outra linha):
+                                  type: string
+                                EhManual:
+                                  type: string
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: S
+                                EhImposto:
+                                  type: string
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: N
+                                EhInclusaoManual:
+                                  type: string
+                                  x-origem: Valor fixo — constante hardcoded no layout
+                                  default: S
+                  required:
+                  - Cotacao
+              x-layout-handle: 1438
+              x-layout-versao: '1.00'
+  /comercial/cotacao/listar:
+    get:
+      tags:
+      - Comercial
+      summary: Listar Cotacoes
+      description: |-
+        Lista cotacoes (cabecalho). Parametros via QUERY STRING: status (nome), tipo (nome), limit, offset. Retorna todos os campos cadastraveis com IDs e nomes resolvidos (TipoNome, OperacaoTransporteNome, NaturezaOperacaoNome, TabelaNome, ListaNome).
+
+        **Produto:** Comercial → **Processo:** Cotacao
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 218`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 212`
+
+        **Layout retorno:** 1441 (Retorno listar cotacoes)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op218
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Cotacoes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: string
+                        Data:
+                          type: string
+                        Solicitante:
+                          type: string
+                        Status:
+                          type: number
+                        StatusNome:
+                          type: string
+                        TipoNome:
+                          type: string
+                        TabelaNome:
+                          type: string
+                        ListaNome:
+                          type: string
+                        ValorTotal:
+                          type: number
+                        Filial:
+                          type: number
+                        Tipo:
+                          type: number
+                        Tabela:
+                          type: number
+                        Lista:
+                          type: number
+                        OperacaoTransporte:
+                          type: number
+                        OperacaoTransporteNome:
+                          type: string
+                        NaturezaOperacao:
+                          type: number
+                        NaturezaOperacaoNome:
+                          type: string
+                x-layout-handle: 1441
+                x-exportacao-handle: 98
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
   /consulta/cliente/viagem:
     get:
       tags:
@@ -7197,6 +8088,68 @@ paths:
         '500':
           description: Erro interno do servidor
       security: []
+  /contabil/conta/listar-ativas:
+    get:
+      tags:
+      - Contabil
+      summary: Listar Ativas
+      description: |-
+        Retorna todas as contas contabeis ativas (CT_CONTA.STATUS=4) ordenadas
+        por CODIGO. Sem parametros. ~484 contas no momento do cadastro (2026-05-26).
+        Auth Bearer aplicada pelo gateway externo.
+
+        **Produto:** Contabil → **Processo:** Conta
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 225`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 219`
+
+        **Layout retorno:** 1461 (Retorno listar contas contabeis ativas)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op225
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Contas:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Codigo:
+                          type: number
+                        Nome:
+                          type: string
+                        Nivel:
+                          type: number
+                        UltimoNivel:
+                          type: string
+                        NivelSuperior:
+                          type: number
+                        CodigoContabil:
+                          type: string
+                        NomeContabil:
+                          type: string
+                        IndicadorNatureza:
+                          type: number
+                x-layout-handle: 1461
+                x-exportacao-handle: 112
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
   /manutencaoEquipamento/equipamento/movimentarImobilizado:
     post:
       tags:
@@ -9205,6 +10158,80 @@ paths:
                     - descricao
               x-layout-handle: 739
               x-layout-versao: '5.00'
+  /qualidade/procedimento/listar:
+    get:
+      tags:
+      - Qualidade
+      summary: Listar
+      description: |-
+        Lista MS_PROCEDIMENTO com filtros opcionais: status, categoria, nivelsuperior, busca, limit, offset.
+
+        **Produto:** Qualidade → **Processo:** Procedimento
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 227`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 220`
+
+        **Layout retorno:** 1464 (Retorno listar procedimentos)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op227
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Procedimentos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Nome:
+                          type: string
+                        Estrutura:
+                          type: string
+                        Nivel:
+                          type: number
+                        Nivel2:
+                          type: number
+                        NivelSuperior:
+                          type: number
+                        UltimoNivel:
+                          type: string
+                        Categoria:
+                          type: number
+                        CategoriaNome:
+                          type: string
+                        Status:
+                          type: number
+                        StatusNome:
+                          type: string
+                        Empresa:
+                          type: number
+                        Alcada:
+                          type: number
+                        StatusData:
+                          type: string
+                        DataCadastro:
+                          type: string
+                        DataAlteracao:
+                          type: string
+                x-layout-handle: 1464
+                x-exportacao-handle: 113
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
   /rh/vaga/cadastrar:
     post:
       tags:
@@ -9254,6 +10281,178 @@ paths:
                   required:
                   - CPF
               x-layout-handle: 1098
+              x-layout-versao: '1.00'
+  /tarefa/ordem/incluir:
+    post:
+      tags:
+      - Tarefa
+      summary: Incluir Tarefa
+      description: |-
+        Inclui uma tarefa em TA_ORDEM via JSON. Campos lookup (Tipo/Categoria/Classificacao/Severidade/RecursoLogin/SolicitanteLogin/DepartamentoNome/ProcessoTarefaNumero/ClienteCNPJ) sao resolvidos por pesquisa. Auto-fill: EMPRESA=1, FILIAL=3, STATUS=7 (Cadastrada), SOLICITACAO=GETDATE(). Auth Bearer no gateway.
+
+        **Produto:** Tarefa → **Processo:** Ordem
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 216`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 210`
+
+        **Layout request:** 1436 (Importacao incluir Tarefa)
+
+        **Layout retorno:** 1437 (Retorno incluir Tarefa)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op216
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: number
+                        Erro:
+                          type: string
+                x-layout-handle: 1437
+                x-exportacao-handle: 96
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    Tarefa:
+                      type: array
+                      description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar caso
+                        a caso.'
+                      items:
+                        type: object
+                        x-acoes-banco:
+                        - Incluir -> TA_ORDEM
+                        properties:
+                          Assunto:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Assunto'
+                            maxLength: 350
+                          Observacao:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Observacao'
+                            maxLength: 8000
+                          CodigoAuxiliar:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.CodigoAuxiliar'
+                            maxLength: 20
+                          Necessidade:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Necessidade'
+                            x-mascara: dd/MM/yyyy hh:nn
+                          PrevisaoInicio:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.PrevisaoInicio'
+                            x-mascara: dd/MM/yyyy hh:nn
+                          PrevisaoTermino:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.PrevisaoTermino'
+                            x-mascara: dd/MM/yyyy hh:nn
+                          PrevisaoHora:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.PrevisaoHora'
+                          Tipo:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Tipo'
+                          Tipo (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Categoria:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Categoria'
+                          Categoria (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Classificacao:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Classificacao'
+                          Classificacao (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Severidade:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.Severidade'
+                          Severidade (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          RecursoLogin:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.RecursoLogin'
+                          RecursoLogin (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          SolicitanteLogin:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.SolicitanteLogin'
+                          SolicitanteLogin (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          DepartamentoNome:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.DepartamentoNome'
+                          DepartamentoNome (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          ProcessoTarefaNumero:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.ProcessoTarefaNumero'
+                          ProcessoTarefaNumero (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          ClienteCNPJ:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: Tarefa.ClienteCNPJ'
+                          ClienteCNPJ (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Empresa (Fixo 1):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          Filial (Fixo 3 Matriz):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '3'
+                          Status (Fixo 7 Cadastrada):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '7'
+                          Solicitacao (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                        required:
+                        - Assunto
+                  required:
+                  - Tarefa
+              x-layout-handle: 1436
               x-layout-versao: '1.00'
   /tecnologia/servicedesk/buscaratualizacao:
     post:
@@ -9363,6 +10562,154 @@ paths:
             schema:
               type: object
               description: ⚠️ Endpoint sem publicação em IN_SERVICOWEBOPERACAO — schema não cadastrado.
+  /tecnologia/servicedesk/incluir-helpdesk:
+    post:
+      tags:
+      - Tecnologia
+      summary: Incluir Help Desk
+      description: |-
+        Inclui um chamado em HD_ORDEM via JSON. Campos com sufixo (Pesquisa) sao resolvidos por
+        lookup. Solicitante = MS_USUARIO.LOGIN (resolve para HD_ORDEM.SOLICITANTE).
+        Status=1 (Cadastrado), Data=now, Numero=auto, EHESCALASOFT='N', EHIMPORTADO='S',
+        EHGERADOPELOSERVICEDESK='N', EMPRESA=1, FILIAL=3 (Matriz) por default.
+        SLATI fica NULL nesta v1.
+
+        **Produto:** Tecnologia → **Processo:** Service Desk
+
+        **Handle:** `IN_WEBSERVICEOPERACAO.HANDLE = 215`
+
+        **Publicação:** `IN_SERVICOWEBOPERACAO.HANDLE = 209`
+
+        **Layout request:** 1434 (Importacao incluir Help Desk)
+
+        **Layout retorno:** 1435 (Retorno incluir Help Desk)
+
+        **Autenticação obrigatória:** Sim (Bearer Token)
+      operationId: op215
+      responses:
+        '200':
+          description: Operação executada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Resultado:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Handle:
+                          type: number
+                        Numero:
+                          type: number
+                        Erro:
+                          type: string
+                x-layout-handle: 1435
+                x-exportacao-handle: 95
+                x-exportacao-versao: '1.00'
+        '400':
+          description: Conteúdo inválido
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro interno do servidor
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Lista:
+                  type: object
+                  properties:
+                    HelpDesk:
+                      type: array
+                      description: 'Heurística: vira array porque a linha tem ação INCLUIR em tabela própria. Validar caso
+                        a caso.'
+                      items:
+                        type: object
+                        x-acoes-banco:
+                        - Incluir -> HD_ORDEM
+                        properties:
+                          Assunto:
+                            type: string
+                            maxLength: 300
+                            x-campo-banco: ASSUNTO
+                          Descricao:
+                            type: string
+                            x-campo-banco: DESCRICAO
+                          Observacao:
+                            type: string
+                            x-campo-banco: OBSERVACAO
+                          Empresa (Fixo 1):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          Filial (Fixo 3 Matriz):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '3'
+                          Status (Fixo 1 Cadastrado):
+                            type: integer
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: '1'
+                          EhEscalasoft (Fixo N):
+                            type: string
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: N
+                          EhImportado (Fixo S):
+                            type: string
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: S
+                          EhGeradoServiceDesk (Fixo N):
+                            type: string
+                            x-origem: Valor fixo — constante hardcoded no layout
+                            default: N
+                          Data (GETDATE):
+                            type: string
+                            x-origem: Computado por SQL inline
+                            x-mascara: dd/mm/yyyy hh:nn:ss
+                          Tipo:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: HelpDesk.Tipo'
+                          Tipo (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Categoria:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: HelpDesk.Categoria'
+                          Categoria (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Severidade:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: HelpDesk.Severidade'
+                          Severidade (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          Sistema:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: HelpDesk.Sistema'
+                          Sistema (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                          SolicitanteLogin:
+                            type: string
+                            x-origem: 'Campo JSON intermediario — destino: HelpDesk.SolicitanteLogin'
+                          SolicitanteLogin (Pesquisa):
+                            type: string
+                            x-origem: Pesquisa — valor usado em lookup no banco
+                        required:
+                        - Assunto
+                        - Descricao
+                  required:
+                  - HelpDesk
+              x-layout-handle: 1434
+              x-layout-versao: '1.00'
   /venda/ordemvenda/boletosfaturamento:
     post:
       tags:
